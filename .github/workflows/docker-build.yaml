@@ -15,8 +15,6 @@ jobs:
       - name: Use the previous version
         run: |
           echo ${{ steps.version.outputs.previous-version }}
-      - name: List files
-        run: ls
       - name: Log in to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: Build Docker image
