@@ -10,10 +10,7 @@ jobs:
         uses: codacy/git-version@2.4.0
       - name: Use the version
         run: |
-          echo ${{ steps.version.outputs.version }}
-      - name: Use the previous version
-        run: |
-          echo ${{ steps.version.outputs.previous-version }}
+          echo ${{ steps.version }}
       - name: List files
         run: ls
       - name: Log in to Docker Hub
