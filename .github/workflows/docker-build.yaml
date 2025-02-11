@@ -9,7 +9,7 @@ jobs:
       - uses: docker/login-action@v3.3.0
         with:
           username: plbls2
-          password: ${{ secret.DOCKER_HUB }}
+          password: ${{ secrets.DOCKER_HUB }}
       - uses: docker/build-push-action@v6.13.0
       - run: docker images
 
