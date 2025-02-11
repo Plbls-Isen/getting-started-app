@@ -6,11 +6,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: Versions
-        uses: codacy/git-version@2.4.0
+      - name: Git Version
+        id: version
+        uses: codacy/git-version@2.7.1
       - name: Use the version
         run: |
-          echo ${{ steps.version }}
+          echo ${{ steps.version.outputs.version }}
+      - name: Use the previous version
+        run: |
+          echo ${{ steps.version.outputs.previous-version }}
       - name: List files
         run: ls
       - name: Log in to Docker Hub
