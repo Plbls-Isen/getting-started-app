@@ -29,5 +29,5 @@ jobs:
                 systemctl enable docker
                 usermod -aG docker ec2-user
                 docker pull plbls2/getting-started
-                docker run -d -p 8080:8080 plbls2/getting-started"
+                docker run -d -p 3000:3000 plbls2/getting-started"
 
