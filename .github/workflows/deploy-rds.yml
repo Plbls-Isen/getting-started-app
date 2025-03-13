@@ -1,7 +1,6 @@
 name: deploy-rds
 on:
-  workflow_dispatch:
-
+  workflow_dispatch
 jobs:
   create-rds:
     runs-on: ubuntu-latest
