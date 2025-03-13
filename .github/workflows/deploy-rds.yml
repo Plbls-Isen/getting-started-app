@@ -18,7 +18,7 @@ jobs:
         run: |
           aws rds create-db-instance \
             --db-instance-identifier g11-db-instance \
-            --db-instance-class db.t3.micro \
+            --db-instance-class db.t4g.micro \
             --engine mysql \
             --allocated-storage 20 \
             --master-username ${{ secrets.DB_USER }} \
@@ -26,30 +26,3 @@ jobs:
             --vpc-security-group-ids sg-042896fe2dea4c357 \
             --backup-retention-period 7 \
             --availability-zone eu-west-3a
-
-      - name: Wait for RDS to be available
-        run: |
-          echo "Waiting for RDS to be ready..."
-          aws rds wait db-instance-available --db-instance-identifier g11-db-instance
-
-      - name: Get RDS Endpoint
-        run: |
-          DB_HOST=$(aws rds describe-db-instances \
-            --db-instance-identifier g11-db-instance \
-            --query "DBInstances[0].Endpoint.Address" \
-            --output text)
-
-          echo "MYSQL_HOST=$DB_HOST" >> .env
-          echo "MYSQL_USER=${{ secrets.DB_USER }}" >> .env
-          echo "MYSQL_PASSWORD=${{ secrets.DB_PASS }}" >> .env
-          echo "MYSQL_DB=${{ secrets.DB_NAME }}" >> .env
-
-          cat .env  # Afficher pour debug
-
-      - name: Commit and Push .env file
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add .env
-          git commit -m "Add .env file with MySQL credentials"
-          git push
