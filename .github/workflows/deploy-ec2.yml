@@ -28,6 +28,15 @@ jobs:
                 systemctl start docker
                 systemctl enable docker
                 usermod -aG docker ec2-user
+
+                dnf install -y mysql
+
+                until mysql -h g11-db-instance.c5y24wq4aulw.eu-west-3.rds.amazonaws.com -u {{ secrets.DB_USER }} -p${{ secrets.DB_PASS }} -e "SELECT 1;" > /dev/null 2>&1; do
+                    
+                    sleep 10
+                done
+                mysql -h g11-db-instance.c5y24wq4aulw.eu-west-3.rds.amazonaws.com -u {{ secrets.DB_USER }} -p${{ secrets.DB_PASS }} -e "CREATE DATABASE IF NOT EXISTS todos;"
+              
                 docker pull plbls2/getting-started
                 docker run -d -e MYSQL_HOST=${{ secrets.DB_HOST }} -e MYSQL_USER=${{ secrets.DB_USER }} -e MYSQL_PASSWORD=${{ secrets.DB_PASS }} -e MYSQL_DB=todos -p 3000:3000 plbls2/getting-started"
 
